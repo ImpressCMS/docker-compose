@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: icms2dock
+       MYSQL_USER: icms2
+       MYSQL_PASSWORD: icms2
+
+   icms:
+     build: 
+       context: .
+       dockerfile: Dockerfile
+     depends_on:
+       - db
+     ports:
+       - "8000:80"
+     restart: always
+
+volumes:
+    db_data:
